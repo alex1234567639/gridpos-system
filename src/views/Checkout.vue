@@ -203,12 +203,6 @@ async function onScanSuccess(decodedText: string) {
         ownerId,
         txId: response.txId,
       });
-
-      // 3秒後自動重新開始掃描
-      //   setTimeout(() => {
-      //     lastResult.value = null;
-      //     startScan();
-      //   }, 3000);
     } else {
       throw new Error("結帳失敗");
     }
