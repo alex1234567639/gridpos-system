@@ -1,0 +1,14 @@
+{
+  "pointNavigation": {
+    "title": "定點導覽",
+    "back": "返回",
+    "electricVehicleArea": "電動車展示區",
+    "duration": "一個小時",
+    "location": "電動車試乘區",
+    "navigate": "前往",
+    "activityRules": "活動辦法",
+    "bookNow": "立即預約",
+    "full": "已額滿",
+    "remaining": "剩餘"
+  }
+}

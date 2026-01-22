@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'NotoSansTC';
+    src: url('/src/assets/font/NotoSansTC-Medium.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'OtomanopeeOne';
+    src: url('/src/assets/font/OtomanopeeOne-Regular.ttf') format('truetype');
+}
+
+@layer base {
+    body {
+        font-family: "NotoSansTC", "Microsoft JhengHei", "Arial", "MyWebFont", sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "spHelvetica Neue", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+        font-weight: normal;
+        margin: 0;
+    }
+    *:focus {
+        outline: none;
+    }
+    .scroll {
+        overflow-y: overlay;
+        overscroll-behavior-y: contain;
+    }
+    .scroll::-webkit-scrollbar {
+        width: 5px;
+    }
+    .scroll::-webkit-scrollbar-track {
+        border-radius: 3px;
+    }
+    .scroll::-webkit-scrollbar-thumb {
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        background: rgba(0, 0, 0, 0.3);
+    }
+    .mobile {
+        display: none !important;
+    }
+
+    @media (max-width: 768px) {
+        .mobile {
+            display: block !important;
+        }
+        .pc {
+            display: none !important;
+        }
+    }
+}

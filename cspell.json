@@ -1,0 +1,59 @@
+/**
+ * cspell.json
+ * package.json 要設定 cspell:check (只檢查已追蹤、且沒被 .gitignore 忽略的檔案)
+ * package.json 要設定 cspell:check:all (強制掃描全部檔案)
+ */ {
+  "version": "0.2",
+  // 預設語言（如果專案裡同時有中英混用，可只檢查英文）
+  "language": "en",
+  // 要載入的內建字典
+  "dictionaries": [
+    "typescript", // 包含 TypeScript 核心關鍵字與標準 API（像 Promise、Readonly、Record…
+    "node", // Node.js 全域物件、核心模組名稱（像 process、Buffer、__dirname、fs、http…）
+    "softwareTerms" // 常見軟體開發用語、縮寫與工具名（像 Vue、React、API、CI/CD、Webpack…）
+  ],
+  // 要忽略的單字
+  "words": [
+    "conteiner",
+    "cspellignore",
+    "hightlight",
+    "higjtlight",
+    "locapi",
+    "Otomanopee",
+    "Pois",
+    "unplugin"
+  ],
+  // 要忽略檔案或資料夾
+  "ignorePaths": [
+    "node_modules/**",
+    "dist/**",
+    ".git/**",
+    "coverage/**",
+    ".gitignore",
+    ".vscode/**",
+    "auto-imports.d.ts",
+    "components.d.ts",
+    "pnpm-lock.yaml",
+    "public/**",
+    "scripts/**"
+  ],
+  // 在程式碼裡出現也不算錯的字
+  "ignoreWords": [
+    "TODO",
+    "FIXME",
+    "id",
+    "vueuse",
+    "VITE",
+    "mapbox",
+    "mapboxgl"
+  ],
+  // 要套用拼字檢查的檔案類型
+  "files": ["**/*.{js,ts,vue,jsx,tsx,json,md, css, scss}"],
+  // 自訂正則，碰到就忽略
+  "patterns": [
+    {
+      "name": "hexColor",
+      "pattern": "^#[A-Fa-f0-9]{6}$"
+    }
+  ]
+}

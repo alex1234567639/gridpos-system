@@ -1,0 +1,42 @@
+# —— 不要掃 nvmrc ——
+.nvmrc
+
+# 跳過 cspell 自己的快取／設定檔
+.cspellignore
+.cspellcache
+
+# 一、套件與編譯輸出
+node_modules/**
+dist/**
+build/**
+out/**
+public/**
+coverage/**
+
+# 二、IDE／環境設定
+.vscode/**
+.idea/**
+*.sublime-*
+*.log
+*.mjs
+
+# 三、快取/快取檔
+.cache/**
+.cspellcache
+.vite/**
+.nuxt/**
+.next/**
+.eslintcache
+
+# 四、靜態資源（圖片、字型、二進位）
+**/*.{png,jpg,jpeg,gif,svg,ico,webp,mp4,mp3,woff,woff2,ttf,eot}
+
+# 五、測試快照
+__snapshots__/**
+*.snap
+
+# 六、鎖檔、大型設定檔（可選）
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+*.map
