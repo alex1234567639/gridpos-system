@@ -15,6 +15,11 @@ const routes: Array<RouteRecordRaw> = [
     name: "Home",
     component: () => import("../views/index.vue"),
   },
+  {
+    path: "/checkout",
+    name: "Checkout",
+    component: () => import("../views/Checkout.vue"),
+  },
 ];
 
 const router = createRouter({

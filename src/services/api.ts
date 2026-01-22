@@ -7,6 +7,7 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/x-www-form-urlencoded",
   },
+  maxRedirects: 5, // 支援重定向（Apps Script 需要）
 });
 
 // 請求攔截器

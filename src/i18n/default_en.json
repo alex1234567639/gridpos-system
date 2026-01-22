@@ -1,14 +1,3 @@
 {
-  "pointNavigation": {
-    "title": "Point Navigation",
-    "back": "Back",
-    "electricVehicleArea": "Electric Vehicle Display Area",
-    "duration": "One Hour",
-    "location": "Electric Vehicle Test Drive Area",
-    "navigate": "Navigate",
-    "activityRules": "Activity Rules",
-    "bookNow": "Book Now",
-    "full": "Full",
-    "remaining": "Remaining"
-  }
+  "loading": "Loading..."
 }
