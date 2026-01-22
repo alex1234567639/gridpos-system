@@ -8,7 +8,7 @@ import prettierPlugin from "eslint-plugin-prettier";
 import tailwindcssPlugin from "eslint-plugin-tailwindcss";
 import vuePlugin from "eslint-plugin-vue";
 import vueParser from "vue-eslint-parser";
-import eslintrcAutoImport from "./.eslintrc-auto-import.json" assert { type: "json" };
+import eslintrcAutoImport from "./.eslintrc-auto-import.json" with { type: "json" };
 
 // —— 1. 从 vuePlugin.configs 中拿到 “flat/recommended” 这个 preset 的 rules & settings ——
 const {
@@ -89,7 +89,6 @@ export default [
       parserOptions: {
         ecmaVersion: "latest",
         sourceType: "module",
-        project: "./tsconfig.json",
       },
     },
     plugins: {
