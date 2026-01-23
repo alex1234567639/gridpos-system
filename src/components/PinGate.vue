@@ -65,7 +65,7 @@ function submit() {
 
 <style scoped>
 .pin-gate-overlay {
-  min-height: 100vh;
+  min-height: 100svh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   display: flex;
   align-items: center;
