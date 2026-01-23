@@ -15,6 +15,10 @@ dist-ssr
 .env.development
 .env.production
 
+# PWA
+dev-dist
+dist
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

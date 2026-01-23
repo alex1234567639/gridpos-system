@@ -3,6 +3,7 @@ import { fileURLToPath, URL } from "node:url";
 import vue from "@vitejs/plugin-vue";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
+import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -54,6 +55,63 @@ export default defineConfig({
       extensions: ["vue"],
       deep: true,
       dts: "components.d.ts", // 產生類型定義檔
+    }),
+
+    /**
+     * PWA 配置
+     * https://vite-pwa-org.netlify.app/
+     */
+    VitePWA({
+      registerType: "autoUpdate",
+      includeAssets: ["vite.svg"],
+      manifest: {
+        name: "格子鋪管理系統",
+        short_name: "格子鋪POS",
+        description: "格子鋪結帳管理系統",
+        theme_color: "#667eea",
+        background_color: "#ffffff",
+        display: "standalone",
+        orientation: "portrait",
+        scope: "/gridpos-system/",
+        start_url: "/gridpos-system/",
+        icons: [
+          {
+            src: "pwa-192x192.png",
+            sizes: "192x192",
+            type: "image/png",
+          },
+          {
+            src: "pwa-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+          },
+          {
+            src: "pwa-512x512.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "any maskable",
+          },
+        ],
+      },
+      workbox: {
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,woff,woff2}"],
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/script\.google\.com\/.*/i,
+            handler: "NetworkFirst",
+            options: {
+              cacheName: "google-scripts-cache",
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 7, // 7 days
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+        ],
+      },
     }),
   ],
   server: {
