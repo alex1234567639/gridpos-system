@@ -17,16 +17,36 @@
           placeholder="請輸入 PIN 碼"
           @keyup.enter="submit"
           class="pin-input"
+          :disabled="pinLockStore.isLocked"
         />
       </div>
 
-      <button @click="submit" class="submit-btn">
-        <span>進入結帳</span>
-        <span class="arrow">→</span>
+      <button
+        @click="submit"
+        class="submit-btn"
+        :disabled="pinLockStore.isLocked"
+      >
+        <span v-if="!pinLockStore.isLocked">進入結帳</span>
+        <span v-else>已鎖定</span>
+        <span v-if="!pinLockStore.isLocked" class="arrow">→</span>
+        <span v-else class="lock-icon-small">🔒</span>
       </button>
 
       <transition name="shake">
-        <div v-if="error" class="error-message">
+        <div v-if="pinLockStore.isLocked" class="lock-message">
+          <span class="lock-icon-msg">🔒</span>
+          <div class="lock-text">
+            <p class="lock-title">帳號已鎖定</p>
+            <p class="lock-countdown">
+              剩餘時間：{{ pinLockStore.formattedTime }}
+            </p>
+            <p class="lock-hint">連續輸入錯誤 5 次，請稍後再試</p>
+          </div>
+        </div>
+      </transition>
+
+      <transition name="shake">
+        <div v-if="error && !pinLockStore.isLocked" class="error-message">
           <span class="error-icon">⚠️</span>
           <span>{{ error }}</span>
         </div>
@@ -36,29 +56,57 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
+import { usePinLockStore } from "@/stores/pinLock";
 
 const inputPin = ref("");
 const error = ref("");
+
 const emit = defineEmits<{
   (e: "success"): void;
 }>();
 
 const CHECKOUT_PIN = import.meta.env.VITE_CHECKOUT_PIN;
 
+// 使用 PIN 鎖定 store
+const pinLockStore = usePinLockStore();
+
+onMounted(() => {
+  pinLockStore.initialize();
+});
+
+onUnmounted(() => {
+  pinLockStore.cleanup();
+});
+
 function submit() {
+  if (pinLockStore.isLocked) {
+    return;
+  }
+
   if (!inputPin.value) {
     error.value = "請輸入結帳碼";
     return;
   }
 
   if (inputPin.value === CHECKOUT_PIN) {
+    // 成功，清除失敗記錄
+    pinLockStore.clearFailedAttempts();
     localStorage.setItem("checkout_unlocked", "1");
     error.value = "";
     emit("success");
   } else {
-    error.value = "結帳碼錯誤，請重試";
+    // 失敗
     inputPin.value = "";
+    const locked = pinLockStore.recordFailedAttempt();
+
+    if (locked) {
+      // 已鎖定，清空錯誤訊息（顯示鎖定訊息）
+      error.value = "";
+    } else {
+      // 未鎖定，顯示剩餘次數
+      error.value = `結帳碼錯誤，還剩 ${pinLockStore.attemptsLeft} 次機會`;
+    }
   }
 }
 </script>
@@ -144,6 +192,12 @@ h2 {
   box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
 }
 
+.pin-input:disabled {
+  background: #e5e7eb;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 .pin-input::placeholder {
   letter-spacing: normal;
   font-weight: normal;
@@ -179,6 +233,17 @@ h2 {
   transform: translateY(0);
 }
 
+.submit-btn:disabled {
+  background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.submit-btn:disabled:hover {
+  transform: none;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
 .arrow {
   font-size: 20px;
   transition: transform 0.3s;
@@ -186,6 +251,55 @@ h2 {
 
 .submit-btn:hover .arrow {
   transform: translateX(4px);
+}
+
+.lock-icon-small {
+  font-size: 20px;
+}
+
+.lock-message {
+  margin-top: 20px;
+  padding: 20px;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 2px solid #f59e0b;
+  border-radius: 12px;
+  color: #92400e;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.lock-icon-msg {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.lock-text {
+  flex: 1;
+}
+
+.lock-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+  color: #78350f;
+}
+
+.lock-countdown {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+  color: #b45309;
+  font-family: monospace;
+}
+
+.lock-hint {
+  font-size: 14px;
+  margin: 0;
+  color: #92400e;
+  opacity: 0.8;
 }
 
 .error-message {
