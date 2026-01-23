@@ -9,7 +9,6 @@ export class CheckoutService {
       action: "checkout",
       gridNo: params.grid,
       price: params.price.toString(),
-      ownerId: params.owner,
       operator: params.operator,
     });
 

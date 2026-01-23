@@ -28,7 +28,6 @@
       <div class="result-info">
         <p><strong>格號：</strong>{{ lastResult.gridNo }}</p>
         <p><strong>價格：</strong>NT$ {{ lastResult.price }}</p>
-        <p><strong>格主ID：</strong>{{ lastResult.ownerId }}</p>
       </div>
       <div v-if="lastResult.txId" class="success-info">
         <p class="success-text">✓ 結帳成功！</p>
@@ -158,13 +157,13 @@ async function onScanSuccess(decodedText: string) {
   errorMessage.value = "";
 
   try {
-    // 解析 QR code 內容：格號|價格|格主ID
+    // 解析 QR code 內容：格號|價格
     const parts = decodedText.split("|");
-    if (parts.length !== 3) {
-      throw new Error("QR Code 格式錯誤，應為：格號|價格|格主ID");
+    if (parts.length !== 2) {
+      throw new Error("QR Code 格式錯誤，應為：格號|價格");
     }
 
-    const [gridNo, priceStr, ownerId] = parts;
+    const [gridNo, priceStr] = parts;
     const price = parseFloat(priceStr);
 
     if (isNaN(price)) {
@@ -175,7 +174,6 @@ async function onScanSuccess(decodedText: string) {
     lastResult.value = {
       gridNo,
       price,
-      ownerId,
       txId: null,
     };
 
@@ -186,7 +184,6 @@ async function onScanSuccess(decodedText: string) {
     const response = await CheckoutService.checkout({
       grid: gridNo,
       price: price,
-      owner: ownerId,
       operator: operator.value,
     });
 
@@ -200,7 +197,6 @@ async function onScanSuccess(decodedText: string) {
       history.value.unshift({
         gridNo,
         price,
-        ownerId,
         txId: response.txId,
       });
     } else {
@@ -251,7 +247,7 @@ async function finishCheckout() {
 
 <style scoped>
 .checkout-container {
-  min-height: 100vh;
+  min-height: 100svh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 20px;
 }

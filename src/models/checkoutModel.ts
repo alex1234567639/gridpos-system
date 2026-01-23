@@ -1,7 +1,6 @@
 export interface CheckoutRequest {
   grid: string;
   price: number;
-  owner: string;
   operator: string;
 }
 

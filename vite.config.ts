@@ -56,4 +56,7 @@ export default defineConfig({
       dts: "components.d.ts", // 產生類型定義檔
     }),
   ],
+  server: {
+    host: "0.0.0.0", // 允許外部訪問
+  },
 });
