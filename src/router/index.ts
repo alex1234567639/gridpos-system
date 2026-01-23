@@ -23,7 +23,7 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({
-  history: createWebHistory('/gridpos-system'),
+  history: createWebHistory("/gridpos-system"),
   routes,
 });
 
