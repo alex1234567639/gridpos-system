@@ -236,7 +236,7 @@ async function finishCheckout() {
   errorMessage.value = "";
 
   // 顯示完成訊息
-  finishMessage.value = `本次共 ${count} 筆交易，總金額：NT$ ${total}`;
+  finishMessage.value = `本次共 ${count} 筆交易\n總金額：NT$ ${total}`;
 
   // 3秒後自動隱藏訊息
   setTimeout(() => {
@@ -515,6 +515,7 @@ h2 {
   margin: 0;
   font-size: 16px;
   color: #047857;
+  white-space: pre-line;
 }
 
 @keyframes bounceIn {
